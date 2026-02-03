@@ -13,7 +13,7 @@ A modern, dark-themed developer portfolio built with Next.js, React, and TypeScr
 - Fully responsive and mobile-friendly
 
 ## Credits
-- **PillNav Component**: Imported from [React Bits](https://reactbits.dev/components/pill-nav) - An animated pill-style navigation with GSAP animations.
+- **Liquid Ether Component**: Imported from [React Bits](https://reactbits.dev/components/pill-nav) - An animated Background with GSAP animations.
 
 ## Getting Started
 
