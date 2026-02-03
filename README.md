@@ -3,17 +3,15 @@
 A modern, dark-themed developer portfolio built with Next.js, React, and TypeScript.
 
 ## Features
-- Beautiful dark UI with green accent and glassmorphism effects
-- **PillNav** - Animated pill-style navigation imported from [React Bits](https://reactbits.dev/components/pill-nav)
-- Animated background particles
-- Responsive navigation bar and sidebar
-- Hero section with code preview
+- Beautiful dark UI with Blue accent and glassmorphism effects
+- **Animated Nav** - Animated navigation bar
+- **Animated Hero Section**
 - About, Projects, Skills, and Contact sections
 - Local Like button (no backend required)
 - Fully responsive and mobile-friendly
 
 ## Credits
-- **Liquid Ether Component**: Imported from [React Bits](https://reactbits.dev/components/pill-nav) - An animated Background with GSAP animations.
+- **Liquid Ether Component**: Imported from [React Bits](https://reactbits.dev/backgrounds/liquid-ether) - An animated Background with GSAP animations.
 
 ## Getting Started
 
@@ -44,7 +42,6 @@ A modern, dark-themed developer portfolio built with Next.js, React, and TypeScr
 - Update your name, bio, and social links in `app/page.tsx`.
 - Add your own projects and skills in the respective sections.
 - The Like button uses localStorage for per-user likes (no backend required).
-- Customize PillNav colors via props in `app/page.tsx`.
 
 ## Folder Structure
 ```
@@ -52,7 +49,7 @@ portfolio/
 ├── app/
 │   ├── elements/
 │   │   ├── likebutton.tsx
-│   │   └── PillNav.tsx       # Imported from React Bits
+│   │   └── LiquidEther.tsx       # Imported from React Bits
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
