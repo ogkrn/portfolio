@@ -95,20 +95,20 @@ export default function Home() {
           <div className="absolute inset-0 z-0">
             <LiquidEther
               colors={["#3080ff", "#54a2ff", "#7BC8FF"]}
-              mouseForce={15}
-              cursorSize={80}
+              mouseForce={20}
+              cursorSize={100}
               isViscous
-              viscous={20}
-              iterationsViscous={8}
-              iterationsPoisson={8}
-              resolution={0.25}
+              viscous={10}
+              iterationsViscous={16}
+              iterationsPoisson={16}
+              resolution={0.3}
               isBounce={false}
               autoDemo
-              autoSpeed={0.2}
-              autoIntensity={1.2}
-              takeoverDuration={0.3}
-              autoResumeDelay={4000}
-              autoRampDuration={0.8}
+              autoSpeed={0.3}
+              autoIntensity={1.5}
+              takeoverDuration={0.25}
+              autoResumeDelay={2000}
+              autoRampDuration={0.6}
             />
           </div>
 

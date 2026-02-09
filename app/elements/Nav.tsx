@@ -143,7 +143,7 @@ export default function Nav({ logo, logoAlt, items, activeHref }: NavProps) {
     <header className="sticky top-0 left-0 right-0 z-50 pointer-events-none w-full px-0 py-3 md:py-4">
       <div className="w-full px-3 sm:px-4 md:px-6">
         <nav
-          className="pointer-events-auto flex w-full items-center justify-between gap-3 sm:gap-4 md:gap-6 rounded-full px-3 py-1.5 sm:px-4 sm:py-1 md:px-6 md:pr-4 mx-auto relative will-change-[max-width,background-color,backdrop-filter]"
+          className="pointer-events-auto flex w-full items-center justify-between gap-3 sm:gap-4 md:gap-6 rounded-full px-3 py-1.5 sm:px-4 sm:py-1 md:px-6 md:pr-4 mx-auto relative will-change-[max-width,background-color,backdrop-filter] overflow-hidden"
           style={{
             maxWidth: isScrolled ? "600px" : "1280px",
             backgroundColor: isScrolled ? "rgba(0,0,0,0.5)" : "transparent",
