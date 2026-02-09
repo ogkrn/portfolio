@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Nav from "./elements/Nav";
 import LiquidEther from "./elements/LiquidEther";
+import CurvedLoop from "./elements/CurvedLoop";
+import ClickSpark from "./elements/ClickSpark";
 
 const GitHubIcon = () => (
   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -74,18 +76,25 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black relative transition-colors duration-300">
-      {/* Navigation */}
-      <Nav
-        logo="./assets/logo.png"
-        
-        logoAlt="Logo"
-        items={navItems}
-        activeHref={activeHref}
-      />
+    <ClickSpark
+      sparkColor="#3b82f6"
+      sparkSize={10}
+      sparkRadius={15}
+      sparkCount={8}
+      duration={400}
+    >
+      <div className="min-h-screen bg-white dark:bg-black relative transition-colors duration-300">
+        {/* Navigation */}
+        <Nav
+          logo="./assets/logo.png"
+          
+          logoAlt="Logo"
+          items={navItems}
+          activeHref={activeHref}
+        />
 
-      {/* Main content */}
-      <div>
+        {/* Main content */}
+        <div>
         {/* Hero Section */}
         <section
           id="home"
@@ -174,6 +183,20 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Curved Loop Section - Below Hero */}
+        <section className="bg-black py-6 overflow-hidden">
+          <div className="h-16">
+            <CurvedLoop
+              marqueeText="Mentor ✦ Websites ✦ Designing ✦ Graphics ✦ Development ✦ "
+              speed={1}
+              curveAmount={0}
+              direction="left"
+              interactive={true}
+              className="fill-gray-500"
+            />
+          </div>
+        </section>
+
         {/* About Section */}
         <section id="about" className="py-24 px-6 bg-white dark:bg-black">
           <div className="max-w-7xl mx-auto">
@@ -226,62 +249,384 @@ export default function Home() {
               <span className="text-blue-400">#</span> Projects
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((project) => (
+            <div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              onMouseLeave={(e) => {
+                // Reset all cards when leaving the grid
+                const cards = e.currentTarget.querySelectorAll('[data-project-card]');
+                cards.forEach((card) => {
+                  (card as HTMLElement).style.filter = '';
+                });
+              }}
+            >
+              {/* Project 1 - Aora */}
+              <div
+                data-project-card
+                className="group relative bg-white dark:bg-[#1a1a1a] rounded-3xl border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-500 overflow-hidden aspect-[4/3] mt-0"
+                onMouseEnter={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      if (card !== e.currentTarget) {
+                        (card as HTMLElement).style.filter = 'grayscale(1) brightness(0.7)';
+                      } else {
+                        (card as HTMLElement).style.filter = 'none';
+                      }
+                    });
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  const relatedTarget = e.relatedTarget as HTMLElement | null;
+                  if (parent && relatedTarget && relatedTarget instanceof Node && parent.contains(relatedTarget)) {
+                    return;
+                  }
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      (card as HTMLElement).style.filter = '';
+                    });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                }}
+                style={{ transition: 'filter 0.5s ease, border-color 0.3s ease' }}
+              >
                 <div
-                  key={project}
-                  className="bg-white dark:bg-[#1a1a1a] rounded-lg border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-300 overflow-hidden"
-                >
-                  <div className="h-48 bg-linear-to-br from-blue-500/20 to-purple-500/20"></div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-black dark:text-white mb-2">
-                      Project {project}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                      A brief description of the project and the technologies
-                      used to build it.
-                    </p>
-                    <div className="flex gap-2">
-                      <span className="px-2 py-1 text-xs bg-blue-500/20 text-blue-500 dark:text-blue-400 rounded">
-                        React
-                      </span>
-                      <span className="px-2 py-1 text-xs bg-purple-500/20 text-purple-500 dark:text-purple-400 rounded">
-                        Node.js
-                      </span>
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: 'radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 80%)'
+                  }}
+                />
+                <div className="h-full bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-500/10 dark:to-orange-500/10 p-8 flex flex-col justify-between">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center text-gray-400 dark:text-gray-600">
+                      {/* Placeholder for project image */}
+                      <div className="text-6xl mb-4">📱</div>
+                      <p className="text-sm">Project Preview</p>
                     </div>
                   </div>
+                  <div className="relative z-20 space-y-3">
+                    <h3 className="text-2xl font-bold text-black dark:text-white">
+                      Aora
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Development
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">
+                      2024
+                    </p>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Project 2 - Code Screenshot */}
+              <div
+                data-project-card
+                className="group relative bg-white dark:bg-[#1a1a1a] rounded-3xl border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-500 overflow-hidden aspect-[4/3] mt-16"
+                onMouseEnter={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      if (card !== e.currentTarget) {
+                        (card as HTMLElement).style.filter = 'grayscale(1) brightness(0.7)';
+                      } else {
+                        (card as HTMLElement).style.filter = 'none';
+                      }
+                    });
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  const relatedTarget = e.relatedTarget as HTMLElement | null;
+                  if (parent && relatedTarget && relatedTarget instanceof Node && parent.contains(relatedTarget)) {
+                    return;
+                  }
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      (card as HTMLElement).style.filter = '';
+                    });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                }}
+                style={{ transition: 'filter 0.5s ease, border-color 0.3s ease' }}
+              >
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: 'radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 80%)'
+                  }}
+                />
+                <div className="h-full bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-500/10 dark:to-purple-500/10 p-8 flex flex-col justify-between">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center text-gray-400 dark:text-gray-600">
+                      <div className="text-6xl mb-4">💻</div>
+                      <p className="text-sm">Project Preview</p>
+                    </div>
+                  </div>
+                  <div className="relative z-20 space-y-3">
+                    <h3 className="text-2xl font-bold text-black dark:text-white">
+                      Code Screenshot
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Development & Design
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">
+                      2024
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project 3 - iPhone 15 Pro */}
+              <div
+                data-project-card
+                className="group relative bg-white dark:bg-[#1a1a1a] rounded-3xl border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-500 overflow-hidden aspect-[4/3] -mt-12"
+                onMouseEnter={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      if (card !== e.currentTarget) {
+                        (card as HTMLElement).style.filter = 'grayscale(1) brightness(0.7)';
+                      } else {
+                        (card as HTMLElement).style.filter = 'none';
+                      }
+                    });
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  const relatedTarget = e.relatedTarget as HTMLElement | null;
+                  if (parent && relatedTarget && relatedTarget instanceof Node && parent.contains(relatedTarget)) {
+                    return;
+                  }
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      (card as HTMLElement).style.filter = '';
+                    });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                }}
+                style={{ transition: 'filter 0.5s ease, border-color 0.3s ease' }}
+              >
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: 'radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 80%)'
+                  }}
+                />
+                <div className="h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800/50 dark:to-gray-900/50 p-8 flex flex-col justify-between">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center text-gray-400 dark:text-gray-600">
+                      <div className="text-6xl mb-4">🎨</div>
+                      <p className="text-sm">Project Preview</p>
+                    </div>
+                  </div>
+                  <div className="relative z-20 space-y-3">
+                    <h3 className="text-2xl font-bold text-black dark:text-white">
+                      iPhone 15 Pro
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      3D Design
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">
+                      2024
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project 4 - SQHI */}
+              <div
+                data-project-card
+                className="group relative bg-white dark:bg-[#1a1a1a] rounded-3xl border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-500 overflow-hidden aspect-[4/3] mt-8"
+                onMouseEnter={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      if (card !== e.currentTarget) {
+                        (card as HTMLElement).style.filter = 'grayscale(1) brightness(0.7)';
+                      } else {
+                        (card as HTMLElement).style.filter = 'none';
+                      }
+                    });
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const parent = e.currentTarget.parentElement;
+                  const relatedTarget = e.relatedTarget as HTMLElement | null;
+                  if (parent && relatedTarget && relatedTarget instanceof Node && parent.contains(relatedTarget)) {
+                    return;
+                  }
+                  if (parent) {
+                    const allCards = parent.querySelectorAll('[data-project-card]');
+                    allCards.forEach((card) => {
+                      (card as HTMLElement).style.filter = '';
+                    });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                }}
+                style={{ transition: 'filter 0.5s ease, border-color 0.3s ease' }}
+              >
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: 'radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 80%)'
+                  }}
+                />
+                <div className="h-full bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-500/10 dark:to-teal-500/10 p-8 flex flex-col justify-between">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center text-gray-400 dark:text-gray-600">
+                      <div className="text-6xl mb-4">🌐</div>
+                      <p className="text-sm">Project Preview</p>
+                    </div>
+                  </div>
+                  <div className="relative z-20 space-y-3">
+                    <h3 className="text-2xl font-bold text-black dark:text-white">
+                      SQHI
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Web Development
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">
+                      2024
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Skills Section */}
+        {/* Areas of Expertise Section */}
         <section id="skills" className="py-24 px-6 bg-white dark:bg-black">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl font-bold text-black dark:text-white mb-12">
-              <span className="text-blue-400">#</span> Skills
+            {/* Section Label */}
+
+            <h2 className="text-5xl md:text-6xl font-bold text-black dark:text-white mb-16">
+              Areas of Expertise
             </h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { name: "React", icon: <ReactIcon /> },
-                { name: "Next.js", icon: "▲" },
-                { name: "TypeScript", icon: "TS" },
-                { name: "Node.js", icon: "⬢" },
-                { name: "Python", icon: "🐍" },
-                { name: "PostgreSQL", icon: "🐘" },
-                { name: "Docker", icon: "🐳" },
-                { name: "AWS", icon: "☁️" },
-              ].map((skill) => (
-                <div
-                  key={skill.name}
-                  className="p-6 bg-gray-100 dark:bg-[#1a1a1a] rounded-lg border border-gray-200 dark:border-blue-500/20 hover:border-blue-500/50 transition-all duration-300 text-center"
-                >
-                  <div className="text-3xl mb-2">{skill.icon}</div>
-                  <span className="text-gray-700 dark:text-gray-300">{skill.name}</span>
+            {/* Expertise Categories */}
+            <div className="space-y-4 mb-16">
+              {/* Development */}
+              <details className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                <summary className="flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#0a0a0a] transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">⚡</span>
+                    <h3 className="text-xl font-semibold text-black dark:text-white">Development</h3>
+                  </div>
+                  <svg 
+                    className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-6 pb-6">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Building robust, scalable applications with modern frameworks and best practices. 
+                    Expertise in full-stack development, API design, and database architecture.
+                  </p>
                 </div>
-              ))}
+              </details>
+
+              {/* UI/UX Design */}
+              <details className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                <summary className="flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#0a0a0a] transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🎨</span>
+                    <h3 className="text-xl font-semibold text-black dark:text-white">UI/UX Design</h3>
+                  </div>
+                  <svg 
+                    className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-6 pb-6">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Designing user-centric, modern interfaces that shape how the audience 
+                    interacts with the product. Focusing on accessibility and seamless user experiences.
+                  </p>
+                </div>
+              </details>
+
+              {/* AI/ML & LLMOps */}
+              <details className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                <summary className="flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#0a0a0a] transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🤖</span>
+                    <h3 className="text-xl font-semibold text-black dark:text-white">AI/ML & LLMOps</h3>
+                  </div>
+                  <svg 
+                    className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-6 pb-6">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Implementing AI solutions using LangChain, fine-tuning models, RAG systems, 
+                    and optimizing LLM operations for production-ready applications.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            {/* Technology Stack - Scrolling Badges */}
+            <div className="my-8 overflow-hidden relative">
+              <div className="flex gap-4 animate-marquee">
+                {[
+                  "C++", "Python", "JavaScript", "TypeScript", "React", "Next.js",
+                  "Express.js", "Node.js", "Tailwind CSS", "React Native",
+                  "PostgreSQL", "MySQL", "Prisma ORM", "Docker", "CI/CD", "Git",
+                  "Vercel", "LangChain", "LLMOps", "Fine-Tuning", "RAG",
+                  "CUDA", "FAISS", "REST"
+                ].concat([
+                  "C++", "Python", "JavaScript", "TypeScript", "React", "Next.js",
+                  "Express.js", "Node.js", "Tailwind CSS", "React Native",
+                  "PostgreSQL", "MySQL", "Prisma ORM", "Docker", "CI/CD", "Git",
+                  "Vercel", "LangChain", "LLMOps", "Fine-Tuning", "RAG",
+                  "CUDA", "FAISS", "REST"
+                ]).map((tech, index) => (
+                  <div
+                    key={index}
+                    className="px-5 py-2.5 bg-transparent border border-gray-300 dark:border-gray-700 rounded-full whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500/50 transition-colors duration-300 flex-shrink-0"
+                  >
+                    {tech}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -349,5 +694,6 @@ export default function Home() {
         </footer>
       </div>
     </div>
+    </ClickSpark>
   );
 }

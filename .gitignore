@@ -39,6 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-app/elements/ChromaGrid.tsx
-app/elements/CurvedLoop.tsx
-components/ClickSpark.tsx
